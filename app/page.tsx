@@ -5,6 +5,12 @@ import { IslandMap, ThemeToggle } from "./components";
 import { useWebshop } from "./state";
 import { initialObjects, PAYMENT_OPTIONS, type IslandObject } from "./domain";
 
+const formatHuNumber = (value: number, fractionDigits = 0) =>
+  new Intl.NumberFormat("de-DE", {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  }).format(value);
+
 export default function Home() {
   const { theme, cart, checkout, dispatch } = useWebshop();
   const [hoverObject, setHoverObject] = useState<IslandObject | null>(null);
@@ -30,10 +36,19 @@ export default function Home() {
     (sum, item) => sum + item.object.cost * item.quantity,
     0,
   );
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const closeCartModal = () => {
     setIsCartOpen(false);
     dispatch({ type: "SET_CHECKOUT_STEP", step: "cart" });
+  };
+
+  const getSelectedPaymentLabel = () => {
+    if (!checkout.selectedPayment) return "nincs kiválasztva";
+    return (
+      PAYMENT_OPTIONS.find((opt) => opt.id === checkout.selectedPayment)?.label ??
+      checkout.selectedPayment
+    );
   };
 
   const renderCheckoutPage = () => {
@@ -57,6 +72,12 @@ export default function Home() {
                       <p className="display-font text-sm">{item.object.name}</p>
                       <p className="text-xs">{item.object.description}</p>
                       <p className="text-xs">Mennyiség: {item.quantity}</p>
+                      <p className="text-xs">
+                        Egységár: {formatHuNumber(item.object.cost)} {item.object.costUnit}
+                      </p>
+                      <p className="text-xs font-semibold">
+                        Összesen: {formatHuNumber(item.object.cost * item.quantity)} Ft
+                      </p>
                     </div>
                     <button
                       type="button"
@@ -72,8 +93,8 @@ export default function Home() {
               </ul>
             )}
             <div className="flex items-center justify-between text-xs border-t border-[color:var(--border)] pt-2">
-              <span>Ár</span>
-              <span>{totalEco} Ft</span>
+              <span>Ár összesen</span>
+              <span>{formatHuNumber(totalEco)} Ft</span>
             </div>
             <button
               type="button"
@@ -88,7 +109,7 @@ export default function Home() {
       case "adatok":
         return (
           <div className="space-y-3 text-xs">
-            <h3 className="uppercase tracking-[0.16em] text-[10px]">Adatok</h3>
+            <h3 className="uppercase tracking-[0.16em] text-xs">Adatok</h3>
             <p>
               Kérjük töltsd ki az alábbi mezőket.
             </p>
@@ -144,7 +165,7 @@ export default function Home() {
       case "fizetes":
         return (
           <div className="space-y-3 text-xs">
-            <h3 className="uppercase tracking-[0.16em] text-[10px]">Válassz fizetési módot</h3>
+            <h3 className="uppercase tracking-[0.16em] text-xs">Válassz fizetési módot</h3>
             <div className="space-y-2">
               {PAYMENT_OPTIONS.map((option) => (
                 <button
@@ -186,17 +207,17 @@ export default function Home() {
       case "osszegzes":
         return (
           <div className="space-y-3 text-xs">
-            <h3 className="uppercase tracking-[0.16em] text-[10px]">Összegzés</h3>
+            <h3 className="uppercase tracking-[0.16em] text-xs">Összegzés</h3>
             <p>
               Ellenőrizd, a kosár tartalmát. Ha minden rendben, kattints a
               „Megrendelés” gombra.
             </p>
             <ul className="space-y-1 text-[11px]">
-              <li>Név: {checkout.form.fullName || "—"}</li>
-              <li>E-mail: {checkout.form.email || "—"}</li>
-              <li>Megjegyzés: {checkout.form.notes || "—"}</li>
-              <li>Vállalás: {checkout.selectedPayment || "nincs kiválasztva"}</li>
-              <li>Tárgyak: {cart.length} db</li>
+              <li>Név: {checkout.form.fullName || "nincs megadva"}</li>
+              <li>E-mail: {checkout.form.email || "nincs megadva"}</li>
+              <li>Megjegyzés: {checkout.form.notes || "nincs megadva"}</li>
+              <li>Fizetés módja: {getSelectedPaymentLabel()}</li>
+              <li>Tárgyak: {totalItems || 0} db</li>
             </ul>
             <div className="flex justify-between pt-2">
               <button
@@ -219,7 +240,7 @@ export default function Home() {
       case "art_notice":
         return (
           <div className="space-y-3 text-xs">
-            <h3 className="uppercase tracking-[0.16em] text-[10px]">Köszönjük a vásárlásod!</h3>
+            <h3 className="uppercase tracking-[0.16em] text-xs">Köszönjük a vásárlásod!</h3>
             <p>
               Fontos megjegyzés:Ez az oldal művészeti fikció. Az itt található tárgyak a valóságban nem feltétlenül eladóak és nincsenek az oldal készítője birtokában. Az oldalon valójában nem történik fizetés, nem történik adásvétel, és semmilyen kötelezettség nem keletkezik a vállalások teljesítésére.
             </p>
@@ -228,7 +249,7 @@ export default function Home() {
               className="pill-filled w-full rounded-full px-4 py-2 text-[10px]"
               onClick={closeCartModal}
             >
-              Vissza a térképre
+              Vissza a kezdőlapra
             </button>
           </div>
         );
@@ -297,7 +318,7 @@ export default function Home() {
                     <div className="space-y-1">
                       <p className="display-font text-base">{obj.name}</p>
                       {obj.cost > 0 && (
-                        <p className="text-sm">{obj.cost} {obj.costUnit}</p>
+                        <p className="text-sm">{formatHuNumber(obj.cost)} {obj.costUnit}</p>
                       )}
                     </div>
                   </li>
@@ -313,16 +334,22 @@ export default function Home() {
           <nav className="flex items-center gap-2">
             <button
               type="button"
-              className="btn-ghost rounded-full px-3 py-1 text-xs flex items-center gap-1"
+              className={`btn-ghost rounded-full px-3 py-1 text-xs flex items-center gap-1 ${
+                isCartOpen ? "bg-[color:var(--accent-soft)]" : ""
+              }`}
               onClick={() => {
-                setIsCartOpen(true);
-                dispatch({ type: "SET_CHECKOUT_STEP", step: "cart" });
+                if (isCartOpen) {
+                  closeCartModal();
+                } else {
+                  setIsCartOpen(true);
+                  dispatch({ type: "SET_CHECKOUT_STEP", step: "cart" });
+                }
               }}
             >
               <i className="ri-shopping-cart-line text-xs" aria-hidden />
               <span>
                 Kosár
-                {cart.length > 0 ? ` (${cart.length})` : ""}
+                {totalItems > 0 ? ` (${totalItems})` : ""}
               </span>
             </button>
             <ThemeToggle />
@@ -354,9 +381,9 @@ export default function Home() {
                     activeObject.dimensions.heightCm ||
                     activeObject.dimensions.depthCm) && (
                     <p className="text-sm">
-                      Méret: {activeObject.dimensions.widthCm || 0} cm ×
+                      Méret: {activeObject.dimensions.widthCm || 0} cm x
                       {" "}
-                      {activeObject.dimensions.heightCm || 0} cm ×
+                      {activeObject.dimensions.heightCm || 0} cm x
                       {" "}
                       {activeObject.dimensions.depthCm || 0} cm
                     </p>
@@ -366,7 +393,7 @@ export default function Home() {
                 )}
                 {activeObject.cost > 0 && (
                   <p className="text-sm">
-                    Ár: {activeObject.cost} {activeObject.costUnit}
+                    Ár: {formatHuNumber(activeObject.cost)} {activeObject.costUnit}
                   </p>
                 )}
               </div>
