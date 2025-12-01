@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans } from "next/font/google";
+import { IBM_Plex_Sans, Playfair_Display } from "next/font/google";
 import { WebshopProvider } from "./state";
 import { initialWebshopState } from "./domain";
 import "./globals.css";
@@ -11,8 +11,14 @@ const plexSans = IBM_Plex_Sans({
   weight: ["300", "400", "500", "600", "700"],
 });
 
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair-display",
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "Papsziget – Felszámolási Webshop",
+  title: "Végső kiárusítás - Papsziget",
   description:
     "Képzeletbeli webshop, ahol a Papsziget ember alkotta tárgyait vásárolhatod meg ökológiai vállalásokkal.",
 };
@@ -24,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="hu">
-      <body className={`${plexSans.variable} font-sans antialiased`}>
+      <body className={`${plexSans.variable} ${playfair.variable} font-sans antialiased`}>
         <WebshopProvider initialState={initialWebshopState}>
           {children}
         </WebshopProvider>

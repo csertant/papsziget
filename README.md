@@ -1,12 +1,5 @@
-# Papsziget kiárusítás
+# Végső kiárusítás - Papsziget
 
-Ez a projekt egy képzeletbeli webshop, amelyben a Duna menti
-Papsziget ember alkotta tárgyait „vásárolhatod meg” ökológiai
-vállalásokért cserébe. Nincs valódi tranzakció, a webshop logikája
-csak keret egy művészeti gondolatkísérlethez.
-
-## Fejlesztői futtatás
-
-```bash
-pnpm install
-pnpm dev
+Képzeletbeli online áruház, ahol a szentendrei Papsziget ember
+által létrehozott tárgyait „vásárolhatod meg”. Miután mindent
+megvettek és elvittek, a sziget visszakerül a természet birtokába.

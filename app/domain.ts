@@ -1,10 +1,7 @@
 export type TrashPaymentOption =
-  | "trash_5kg"
-  | "trash_10kg"
-  | "trash_20kg"
-  | "trees_1"
-  | "trees_5"
-  | "trees_10";
+  | "trash"
+  | "trees"
+  | "construction_waste";
 
 export interface PaymentOption {
   id: TrashPaymentOption;
@@ -14,40 +11,22 @@ export interface PaymentOption {
 
 export const PAYMENT_OPTIONS: PaymentOption[] = [
   {
-    id: "trash_5kg",
-    label: "Elviszek 5 kg szemetet",
+    id: "trash",
+    label: "Szemét elszállítása",
     description:
       "Vállalom, hogy legalább 5 kilogramm hulladékot gyűjtök és elszállítok a szigetről.",
   },
   {
-    id: "trash_10kg",
-    label: "Elviszek 10 kg szemetet",
+    id: "trees",
+    label: "Faültetés",
     description:
-      "Nagyobb vállalás: legalább 10 kilogramm szemetet gyűjtök össze.",
+      "Vállalom, hogy legalább 1 őshonos fát ültetek a kijelölt területen.",
   },
   {
-    id: "trash_20kg",
-    label: "Elviszek 20 kg szemetet",
+    id: "construction_waste",
+    label: "Építési hulladék elszállítása",
     description:
-      "Radikális tisztítás: legalább 20 kilogramm hulladék eltávolítását vállalom.",
-  },
-  {
-    id: "trees_1",
-    label: "Ültetek 1 fát",
-    description:
-      "Legalább egy őshonos fát ültetek a Duna-mentén vagy más zöld felületen.",
-  },
-  {
-    id: "trees_5",
-    label: "Ültetek 5 fát",
-    description:
-      "Közösségi akcióban vagy egyénileg öt fa elültetését vállalom.",
-  },
-  {
-    id: "trees_10",
-    label: "Ültetek 10 fát",
-    description:
-      "Hosszú távú elköteleződés: tíz fa elültetésében veszek részt.",
+      "Vállalom, hogy legalább 100 kilogramm építési hulladékot elszállítom a szigetről.",
   },
 ];
 
@@ -67,7 +46,7 @@ export interface Dimensions {
 }
 
 export interface IslandObject {
-  id: ObjectId; // 6 digit string of letters and numbers
+  id: ObjectId;
   name: string;
   description: string;
   category: ObjectCategory;
