@@ -533,7 +533,7 @@ export const initialObjects: IslandObject[] = [
     description: "Szellőző tégla, amely lehetővé teszi a levegő áramlását az épületben.",
     category: "építmény",
     location: { x: 36, y: 37 },
-    cost: 0,
+    cost: 450,
     costUnit: "Ft",
     color: "fehér",
     material: "kerámia",

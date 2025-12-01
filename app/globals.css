@@ -11,12 +11,12 @@
 }
 
 .theme-dark {
-  --background: #050505;
+  --background: #111111;
   --background-elevated: #111111;
-  --foreground: #ff3333;
-  --muted: #ff3333;
-  --border: #ff3333;
-  --accent: #ff3333;
+  --foreground: #fff;
+  --muted: #fff;
+  --border: #fff;
+  --accent: #fff;
   --accent-soft: rgba(255, 51, 51, 0.12);
 }
 
@@ -45,6 +45,7 @@ body {
 .btn-ghost {
   border: 1px solid var(--border);
   color: var(--accent);
+  cursor: pointer;
 }
 
 .btn-ghost:hover {
@@ -54,11 +55,19 @@ body {
 .pill {
   border: 1px solid var(--border);
   color: var(--accent);
+  cursor: pointer;
 }
 
 .pill-filled {
   background-color: var(--accent-soft);
   border: 1px solid var(--border);
+  color: var(--accent);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.pill-filled:hover {
+  background-color: var(--background);
   color: var(--accent);
 }
 
