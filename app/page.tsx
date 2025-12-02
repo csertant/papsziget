@@ -247,7 +247,10 @@ export default function Home() {
             <button
               type="button"
               className="pill-filled w-full rounded-full px-4 py-2 text-[10px]"
-              onClick={closeCartModal}
+              onClick={() => {
+                dispatch({ type: "CLEAR_CART" });
+                closeCartModal();
+              }}
             >
               Vissza a kezdőlapra
             </button>
@@ -406,14 +409,23 @@ export default function Home() {
               </button>
             </section>
           ) : (
-            <section className="space-y-2">
+            <section className="space-y-2 flex flex-col h-full">
               <h1 className="display-font text-lg font-semibold uppercase tracking-[0.12em]">
                 Végső kiárusítás - Papsziget
               </h1>
-              <p className="display-font max-w-xs text-md">
+              <p className="display-font max-w-xs text-md mb-3">
                 Képzeletbeli online áruház, ahol a szentendrei Papsziget ember
                 által létrehozott tárgyait „vásárolhatod meg”. Miután mindent
                 megvettek és elvittek, a sziget visszakerül a természet birtokába.
+              </p>
+              <p className="text-sm mb-3">
+                A térképen jelölt pontokra kattintva böngészhetsz a
+                tárgyak között, és hozzáadhatod őket a kosaradhoz.
+              </p>
+              <p className="text-sm">
+                A tárgyak száma folyamatosan bővül. Ha van egy jó fotód egy
+                tárgyról a szigeten, amit szívesen látnál az oldalon, küldd el {" "}
+                <a className="underline" href="mailto:csertant@edu.bme.hu">erre</a> a címre.
               </p>
             </section>
           )}
@@ -448,7 +460,7 @@ export default function Home() {
             Ez az oldal egy művészeti projekt része. Az itt található tárgyak a valóságban nem feltétlenül eladóak és nincsenek az oldal készítője birtokában. Az oldalon valójában nem történik fizetés, nem történik adásvétel, és semmilyen kötelezettség nem keletkezik a vállalások teljesítésére. Az oldalon találhatóak mezők, melyek másolják a szokásos személyes adatokat gyűjtő mezők viselkedését, viszont az itt megadott adatok csak lokálisan kerülnek tárolásra és nincsenek továbbítva feldolgozásra.
           </p>
           <p className="flex justify-between">
-            <span>
+            <span className="underline">
               ©2025 <a href="https://csertant.hu" target="_blank" rel="noreferrer">tamás csertán</a>
             </span>
             <span>1.0.0</span>
