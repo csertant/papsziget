@@ -17,10 +17,72 @@ const playfair = Playfair_Display({
   weight: ["400", "500", "600", "700"],
 });
 
+const siteTitle = "Végső kiárusítás - Papsziget";
+const siteDescription =
+  "Képzeletbeli webshop, ahol a Papsziget ember alkotta tárgyait vásárolhatod meg ökológiai vállalásokkal.";
+const siteUrl = "https://papsziget-kiarusitas.netlify.app";
+
 export const metadata: Metadata = {
-  title: "Végső kiárusítás - Papsziget",
-  description:
-    "Képzeletbeli webshop, ahol a Papsziget ember alkotta tárgyait vásárolhatod meg ökológiai vállalásokkal.",
+  metadataBase: new URL(siteUrl),
+  title: siteTitle,
+  description: siteDescription,
+  applicationName: siteTitle,
+  authors: [{ name: "Csertán Tamás", url: "https://csertant.hu" }],
+  creator: "Csertán Tamás",
+  publisher: "Csertán Tamás",
+  keywords: [
+    "Papsziget",
+    "Szentendre",
+    "művészeti projekt",
+    "webshop",
+    "fenntarthatóság",
+    "installáció",
+  ],
+  alternates: {
+    canonical: siteUrl,
+  },
+  openGraph: {
+    type: "website",
+    locale: "hu_HU",
+    url: siteUrl,
+    title: siteTitle,
+    description: siteDescription,
+    siteName: siteTitle,
+    images: [
+      {
+        url: "/logo.png",
+        width: 1200,
+        height: 630,
+        alt: siteTitle,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@csertant",
+    title: siteTitle,
+    description: siteDescription,
+    images: ["/logo.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
+  category: "Shopping",
+  referrer: "strict-origin-when-cross-origin",
+  themeColor: "#ff0000",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({
