@@ -242,7 +242,7 @@ export default function Home() {
           <div className="space-y-3 text-xs">
             <h3 className="uppercase tracking-[0.16em] text-xs">Köszönjük a vásárlásod!</h3>
             <p>
-              Fontos megjegyzés:Ez az oldal művészeti fikció. Az itt található tárgyak a valóságban nem feltétlenül eladóak és nincsenek az oldal készítője birtokában. Az oldalon valójában nem történik fizetés, nem történik adásvétel, és semmilyen kötelezettség nem keletkezik a vállalások teljesítésére.
+              Fontos megjegyzés: Ez az oldal művészeti fikció. Az itt található tárgyak a valóságban nem feltétlenül eladóak és nincsenek az oldal készítője birtokában. Az oldalon valójában nem történik fizetés, nem történik adásvétel, és semmilyen kötelezettség nem keletkezik a vállalások teljesítésére.
             </p>
             <button
               type="button"
@@ -262,8 +262,8 @@ export default function Home() {
   };
 
   return (
-    <main className="app-shell flex h-screen max-h-screen flex-row px-2 py-2 md:px-4 md:py-4 gap-2 overflow-hidden">
-      <section className="relative flex-1 flex items-center justify-center min-h-0">
+    <main className="app-shell flex flex-col md:flex-row min-h-screen md:h-screen md:max-h-screen px-2 py-2 md:px-4 md:py-4 gap-4 md:gap-2 overflow-visible md:overflow-hidden">
+      <section className="relative flex-1 flex items-center justify-center w-full min-h-[60vh] md:min-h-0">
         <div className="absolute top-0 right-0 z-20 flex rounded-full border border-[color:var(--border)] overflow-hidden bg-[color:var(--background-elevated)]">
           <button
             type="button"
@@ -301,7 +301,7 @@ export default function Home() {
             <IslandMap onHoverObject={handleHover} onPinObject={handlePin} />
           ) : (
             <div
-              className="absolute inset-0 p-10 bg-[color:var(--background)] overflow-y-auto no-scrollbar"
+              className="absolute inset-0 p-0 md:p-10 bg-[color:var(--background)] overflow-y-auto no-scrollbar"
               onClick={(e) => {
                 if (e.target === e.currentTarget) {
                   setPinnedObject(null);
@@ -332,7 +332,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-80 md:w-96 flex flex-col justify-between text-sm pl-4 min-h-0">
+      <section className="w-full md:w-96 flex flex-col justify-between text-sm md:pl-4 min-h-0">
         <header className="flex items-center justify-between pb-3">
           <nav className="flex items-center gap-2">
             <button
