@@ -366,7 +366,7 @@ export default function Home() {
                 {activeObject.name}
               </h2>
               {activeObject.imagePath && (
-                <div className="mb-3 w-full max-h-72 flex items-center justify-center overflow-hidden bg-[color:var(--background-elevated)]">
+                <div className="mb-3 w-full max-h-72 flex items-start justify-start overflow-hidden bg-[color:var(--background-elevated)]">
                   <img
                     src={activeObject.imagePath}
                     alt={activeObject.name}
@@ -410,19 +410,19 @@ export default function Home() {
             </section>
           ) : (
             <section className="space-y-2 flex flex-col h-full">
-              <h1 className="display-font text-lg font-semibold uppercase tracking-[0.12em]">
+              <h1 className="display-font text-lg font-semibold uppercase tracking-[0.16em]">
                 Végső kiárusítás - Papsziget
               </h1>
-              <p className="display-font max-w-xs text-md mb-3">
+              <p className="display-font text-md mb-3 text-justify">
                 Képzeletbeli online áruház, ahol a szentendrei Papsziget ember
                 által létrehozott tárgyait „vásárolhatod meg”. Miután mindent
                 megvettek és elvittek, a sziget visszakerül a természet birtokába.
               </p>
-              <p className="display-font text-sm mb-3">
+              <p className="display-font text-sm mb-3 text-justify">
                 A térképen jelölt pontokra kattintva böngészhetsz a
                 tárgyak között, és hozzáadhatod őket a kosaradhoz.
               </p>
-              <p className="display-font text-sm">
+              <p className="display-font text-sm text-justify">
                 A tárgyak száma folyamatosan bővül. Ha van egy jó fotód egy
                 tárgyról a szigeten, amit szívesen látnál az oldalon, küldd el {" "}
                 <a className="underline" href="mailto:csertant@edu.bme.hu">erre</a> a címre.
@@ -456,7 +456,7 @@ export default function Home() {
         </div>
 
         <footer className="pt-3 text-[8px] space-y-2">
-          <p>
+          <p className="text-justify">
             Ez az oldal egy művészeti projekt része. Az itt található tárgyak a valóságban nem feltétlenül eladóak és nincsenek az oldal készítője birtokában. Az oldalon valójában nem történik fizetés, nem történik adásvétel, és semmilyen kötelezettség nem keletkezik a vállalások teljesítésére. Az oldalon találhatóak mezők, melyek másolják a szokásos személyes adatokat gyűjtő mezők viselkedését, viszont az itt megadott adatok csak lokálisan kerülnek tárolásra és nincsenek továbbítva feldolgozásra.
           </p>
           <p className="flex justify-between">
