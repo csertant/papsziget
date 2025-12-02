@@ -30,6 +30,32 @@ export const PAYMENT_OPTIONS: PaymentOption[] = [
   },
 ];
 
+export type ShippingMethod = "self_pickup" | "water_taxi" | "delivery_agency";
+
+export interface ShippingOption {
+  id: ShippingMethod;
+  label: string;
+  description: string;
+}
+
+export const SHIPPING_OPTIONS: ShippingOption[] = [
+  {
+    id: "self_pickup",
+    label: "Személyes átvétel",
+    description: "Saját magam viszem el a tárgyakat a Papszigetről.",
+  },
+  {
+    id: "water_taxi",
+    label: "Vízi taxi",
+    description: "Hajóval viszem el a tárgyakat, saját szervezésben.",
+  },
+  {
+    id: "delivery_agency",
+    label: "Futárszolgálat",
+    description: "Helyi szállítócég segítségével juttatom el a tárgyakat a választott címre.",
+  },
+];
+
 export type ObjectId = string; // 6 character alphanumeric, e.g. "A3F9Z1"
 
 export type ObjectCategory = "tárgy" | "építmény" | "hulladék";
@@ -65,12 +91,21 @@ export interface CartItem {
   quantity: number;
 }
 
-export type CheckoutStep = "cart" | "adatok" | "fizetes" | "osszegzes" | "art_notice";
+export type CheckoutStep =
+  | "cart"
+  | "adatok"
+  | "szallitas"
+  | "fizetes"
+  | "osszegzes"
+  | "art_notice";
 
 export interface CheckoutFormData {
   fullName: string;
   email: string;
   notes: string;
+  addressLine: string;
+  postalCode: string;
+  city: string;
   consentToArtProject: boolean;
 }
 
@@ -78,6 +113,7 @@ export interface CheckoutState {
   step: CheckoutStep;
   form: CheckoutFormData;
   selectedPayment?: TrashPaymentOption;
+  selectedShipping?: ShippingMethod;
 }
 
 export interface ThemeState {
@@ -705,6 +741,9 @@ export const initialWebshopState: WebshopState = {
       fullName: "",
       email: "",
       notes: "",
+      addressLine: "",
+      postalCode: "",
+      city: "",
       consentToArtProject: false,
     },
   },

@@ -13,11 +13,11 @@
 .theme-dark {
   --background: #111111;
   --background-elevated: #111111;
-  --foreground: #fff;
-  --muted: #fff;
-  --border: #fff;
-  --accent: #fff;
-  --accent-soft: rgba(255, 51, 51, 0.12);
+  --foreground: #ccc;
+  --muted: #ccc;
+  --border: #ccc;
+  --accent: #ccc;
+  --accent-soft: rgba(255, 255, 255, 0.25);
 }
 
 .theme-inline {
@@ -30,6 +30,20 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
+}
+
+input,
+textarea,
+select {
+  outline: none;
+  border-color: var(--border);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .app-shell {
@@ -68,6 +82,11 @@ body {
 
 .pill-filled:hover {
   background-color: var(--background);
+  color: var(--accent);
+}
+
+.pill-static:hover {
+  background-color: var(--accent-soft);
   color: var(--accent);
 }
 

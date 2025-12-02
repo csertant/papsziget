@@ -5,6 +5,7 @@ import {
   CartItem,
   CheckoutFormData,
   CheckoutStep,
+  ShippingMethod,
   TrashPaymentOption,
   WebshopState,
   initialWebshopState,
@@ -18,6 +19,7 @@ type Action =
   | { type: "SET_CHECKOUT_STEP"; step: CheckoutStep }
   | { type: "UPDATE_CHECKOUT_FORM"; form: Partial<CheckoutFormData> }
   | { type: "SET_PAYMENT"; payment: TrashPaymentOption | undefined }
+  | { type: "SET_SHIPPING_METHOD"; method: ShippingMethod | undefined }
   | { type: "TOGGLE_THEME" };
 
 interface WebshopContextValue extends WebshopState {
@@ -67,6 +69,11 @@ function reducer(state: WebshopState, action: Action): WebshopState {
       return {
         ...state,
         cart: [],
+        checkout: {
+          ...state.checkout,
+          selectedPayment: undefined,
+          selectedShipping: undefined,
+        },
       };
     }
     case "SET_CHECKOUT_STEP": {
@@ -96,6 +103,15 @@ function reducer(state: WebshopState, action: Action): WebshopState {
         checkout: {
           ...state.checkout,
           selectedPayment: action.payment,
+        },
+      };
+    }
+    case "SET_SHIPPING_METHOD": {
+      return {
+        ...state,
+        checkout: {
+          ...state.checkout,
+          selectedShipping: action.method,
         },
       };
     }

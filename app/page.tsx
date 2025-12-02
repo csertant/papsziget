@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import { IslandMap, ThemeToggle } from "./components";
 import { useWebshop } from "./state";
-import { initialObjects, PAYMENT_OPTIONS, type IslandObject } from "./domain";
+import {
+  initialObjects,
+  PAYMENT_OPTIONS,
+  SHIPPING_OPTIONS,
+  type IslandObject,
+} from "./domain";
 
 const formatHuNumber = (value: number, fractionDigits = 0) =>
   new Intl.NumberFormat("de-DE", {
@@ -37,6 +42,13 @@ export default function Home() {
     0,
   );
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const shippingAddressDisplay = [
+    checkout.form.postalCode.trim(),
+    checkout.form.city.trim(),
+    checkout.form.addressLine.trim(),
+  ]
+    .filter(Boolean)
+    .join(", ");
 
   const closeCartModal = () => {
     setIsCartOpen(false);
@@ -48,6 +60,14 @@ export default function Home() {
     return (
       PAYMENT_OPTIONS.find((opt) => opt.id === checkout.selectedPayment)?.label ??
       checkout.selectedPayment
+    );
+  };
+
+  const getSelectedShippingLabel = () => {
+    if (!checkout.selectedShipping) return "nincs kiválasztva";
+    return (
+      SHIPPING_OPTIONS.find((opt) => opt.id === checkout.selectedShipping)?.label ??
+      checkout.selectedShipping
     );
   };
 
@@ -118,6 +138,7 @@ export default function Home() {
               <input
                 className="w-full border border-[color:var(--border)] bg-transparent px-2 py-1"
                 value={checkout.form.fullName}
+                required
                 onChange={(e) =>
                   dispatch({ type: "UPDATE_CHECKOUT_FORM", form: { fullName: e.target.value } })
                 }
@@ -128,6 +149,7 @@ export default function Home() {
               <input
                 className="w-full border border-[color:var(--border)] bg-transparent px-2 py-1"
                 value={checkout.form.email}
+                required
                 onChange={(e) =>
                   dispatch({ type: "UPDATE_CHECKOUT_FORM", form: { email: e.target.value } })
                 }
@@ -144,6 +166,23 @@ export default function Home() {
                 }
               />
             </label>
+            <label className="flex items-start gap-2 text-[11px]">
+              <input
+                type="checkbox"
+                className="mt-0.5 h-4 w-4 border border-[color:var(--border)] bg-transparent accent-[color:var(--accent)]"
+                checked={checkout.form.consentToArtProject}
+                required
+                onChange={(e) =>
+                  dispatch({
+                    type: "UPDATE_CHECKOUT_FORM",
+                    form: { consentToArtProject: e.target.checked },
+                  })
+                }
+              />
+              <span>
+                Elolvastam és elfogadom az oldal alján található feltételeket.
+              </span>
+            </label>
             <div className="flex justify-between pt-2">
               <button
                 type="button"
@@ -154,7 +193,101 @@ export default function Home() {
               </button>
               <button
                 type="button"
-                className="pill-filled rounded-full px-4 py-1 text-[10px]"
+                className="pill-filled rounded-full px-4 py-1 text-[10px] disabled:opacity-50"
+                disabled={
+                  !checkout.form.fullName ||
+                  !checkout.form.email ||
+                  !checkout.form.consentToArtProject
+                }
+                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "szallitas" })}
+              >
+                Szállítási adatok
+              </button>
+            </div>
+          </div>
+        );
+      case "szallitas":
+        return (
+          <div className="space-y-3 text-xs">
+            <h3 className="uppercase tracking-[0.16em] text-xs">Szállítási adatok</h3>
+            <label className="block space-y-1">
+              <span>Cím (utca, házszám)</span>
+              <input
+                className="w-full border border-[color:var(--border)] bg-transparent px-2 py-1"
+                value={checkout.form.addressLine}
+                onChange={(e) =>
+                  dispatch({
+                    type: "UPDATE_CHECKOUT_FORM",
+                    form: { addressLine: e.target.value },
+                  })
+                }
+              />
+            </label>
+            <div className="flex gap-2">
+              <label className="flex-1 space-y-1">
+                <span>Város</span>
+                <input
+                  className="w-full border border-[color:var(--border)] bg-transparent px-2 py-1"
+                  value={checkout.form.city}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "UPDATE_CHECKOUT_FORM",
+                      form: { city: e.target.value },
+                    })
+                  }
+                />
+              </label>
+              <label className="w-24 space-y-1">
+                <span>Irányítószám</span>
+                <input
+                  className="w-full border border-[color:var(--border)] bg-transparent px-2 py-1"
+                  value={checkout.form.postalCode}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "UPDATE_CHECKOUT_FORM",
+                      form: { postalCode: e.target.value },
+                    })
+                  }
+                />
+              </label>
+            </div>
+            <div className="space-y-2">
+              <p>Válassz szállítási módot</p>
+              {SHIPPING_OPTIONS.map((option) => (
+                <button
+                  key={option.id}
+                  type="button"
+                  className={`w-full text-left border px-3 py-2 rounded ${
+                    checkout.selectedShipping === option.id
+                      ? "pill-filled pill-static"
+                      : "btn-ghost"
+                  }`}
+                  onClick={() =>
+                    dispatch({ type: "SET_SHIPPING_METHOD", method: option.id })
+                  }
+                >
+                  <p className="display-font text-sm">{option.label}</p>
+                  <p className="text-[10px]">{option.description}</p>
+                </button>
+              ))}
+            </div>
+            <div className="flex justify-between pt-2">
+              <button
+                type="button"
+                className="btn-ghost px-3 py-1 text-[10px]"
+                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "adatok" })}
+              >
+                Vissza
+              </button>
+              <button
+                type="button"
+                className="pill-filled rounded-full px-4 py-1 text-[10px] disabled:opacity-50"
+                disabled={
+                  !checkout.selectedShipping ||
+                  !checkout.form.addressLine ||
+                  !checkout.form.city ||
+                  !checkout.form.postalCode
+                }
                 onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "fizetes" })}
               >
                 Fizetési mód
@@ -173,7 +306,7 @@ export default function Home() {
                   type="button"
                   className={`w-full text-left border px-3 py-2 rounded ${
                     checkout.selectedPayment === option.id
-                      ? "pill-filled"
+                      ? "pill-filled pill-static"
                       : "btn-ghost"
                   }`}
                   onClick={() =>
@@ -189,7 +322,7 @@ export default function Home() {
               <button
                 type="button"
                 className="btn-ghost px-3 py-1 text-[10px]"
-                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "adatok" })}
+                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "szallitas" })}
               >
                 Vissza
               </button>
@@ -216,6 +349,10 @@ export default function Home() {
               <li>Név: {checkout.form.fullName || "nincs megadva"}</li>
               <li>E-mail: {checkout.form.email || "nincs megadva"}</li>
               <li>Megjegyzés: {checkout.form.notes || "nincs megadva"}</li>
+              <li>
+                Szállítási cím: {shippingAddressDisplay || "nincs megadva"}
+              </li>
+              <li>Szállítás módja: {getSelectedShippingLabel()}</li>
               <li>Fizetés módja: {getSelectedPaymentLabel()}</li>
               <li>Tárgyak: {totalItems || 0} db</li>
             </ul>
@@ -249,6 +386,8 @@ export default function Home() {
               className="pill-filled w-full rounded-full px-4 py-2 text-[10px]"
               onClick={() => {
                 dispatch({ type: "CLEAR_CART" });
+                setPinnedObject(null);
+                setHoverObject(null);
                 closeCartModal();
               }}
             >
@@ -301,7 +440,7 @@ export default function Home() {
             <IslandMap onHoverObject={handleHover} onPinObject={handlePin} />
           ) : (
             <div
-              className="absolute inset-0 p-0 md:p-10 bg-[color:var(--background)] overflow-y-auto no-scrollbar"
+              className="absolute inset-0 p-4 md:p-0 md:p-10 bg-[color:var(--background)] overflow-y-auto no-scrollbar"
               onClick={(e) => {
                 if (e.target === e.currentTarget) {
                   setPinnedObject(null);
@@ -332,7 +471,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full md:w-96 flex flex-col justify-between text-sm md:pl-4 min-h-0">
+      <section className="w-full md:w-96 p-4 md:p-0 flex flex-col justify-between text-sm md:pl-4 min-h-0">
         <header className="flex items-center justify-between pb-3">
           <nav className="flex items-center gap-2">
             <button
@@ -449,7 +588,7 @@ export default function Home() {
                 Bezár
               </button>
             </div>
-            <div className="h-full overflow-y-auto no-scrollbar pr-2">
+            <div className="h-full overflow-y-auto no-scrollbar">
               {renderCheckoutPage()}
             </div>
           </div>
