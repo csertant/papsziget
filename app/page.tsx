@@ -362,7 +362,7 @@ export default function Home() {
         <div className="relative flex-1 flex flex-col gap-3 overflow-hidden">
           {activeObject ? (
             <section className="bg-[color:var(--background-elevated)]">
-              <h2 className="display-font mb-3 text-lg font-semibold uppercase tracking-[0.12em]">
+              <h2 className="mb-3 text-lg font-semibold uppercase tracking-[0.12em]">
                 {activeObject.name}
               </h2>
               {activeObject.imagePath && (
@@ -375,8 +375,8 @@ export default function Home() {
                 </div>
               )}
               <div className="space-y-2">
-                <p className="text-lg">{activeObject.description}</p>
-                <p className="text-sm uppercase tracking-[0.16em]">{activeObject.category}</p>
+                <p className="text-lg mb-4">{activeObject.description}</p>
+                <p className="text-sm uppercase tracking-[0.16em] mb-4">{activeObject.category}</p>
                 {activeObject.color && <p className="text-sm">Szín: {activeObject.color}</p>}
                 {activeObject.material && <p className="text-sm">Anyag: {activeObject.material}</p>}
                 {activeObject.dimensions &&
@@ -418,11 +418,11 @@ export default function Home() {
                 által létrehozott tárgyait „vásárolhatod meg”. Miután mindent
                 megvettek és elvittek, a sziget visszakerül a természet birtokába.
               </p>
-              <p className="text-sm mb-3">
+              <p className="display-font text-sm mb-3">
                 A térképen jelölt pontokra kattintva böngészhetsz a
                 tárgyak között, és hozzáadhatod őket a kosaradhoz.
               </p>
-              <p className="text-sm">
+              <p className="display-font text-sm">
                 A tárgyak száma folyamatosan bővül. Ha van egy jó fotód egy
                 tárgyról a szigeten, amit szívesen látnál az oldalon, küldd el {" "}
                 <a className="underline" href="mailto:csertant@edu.bme.hu">erre</a> a címre.
