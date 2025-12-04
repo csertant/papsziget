@@ -29,6 +29,8 @@ export default function Home() {
     }
   }, [theme.mode]);
 
+  const currentYear = new Date().getFullYear();
+
   const handleHover = (obj: IslandObject | null) => setHoverObject(obj);
 
   const handlePin = (obj: IslandObject) => {
@@ -600,9 +602,9 @@ export default function Home() {
           </p>
           <p className="flex justify-between">
             <span className="underline">
-              ©2025 <a href="https://csertant.hu" target="_blank" rel="noreferrer">tamás csertán</a>
+              ©{currentYear} <a href="https://csertant.hu" target="_blank" rel="noreferrer">tamás csertán</a> - Minden jog fenntartva.
             </span>
-            <span>1.0.0</span>
+            <span>1.0.1</span>
           </p>
         </footer>
       </section>

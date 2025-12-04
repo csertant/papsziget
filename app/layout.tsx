@@ -79,12 +79,15 @@ export const metadata: Metadata = {
   },
   category: "Shopping",
   referrer: "strict-origin-when-cross-origin",
-  themeColor: "#ff0000",
   icons: {
     icon: "/logo.png",
     shortcut: "/logo.png",
     apple: "/logo.png",
   },
+};
+
+export const viewport = {
+  themeColor: "#ff0000",
 };
 
 export default function RootLayout({
