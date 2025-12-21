@@ -29,9 +29,9 @@ export const metadata: Metadata = {
   title: siteTitle,
   description: siteDescription,
   applicationName: siteTitle,
-  authors: [{ name: "Csertán Tamás", url: "https://csertant.hu" }],
-  creator: "Csertán Tamás",
-  publisher: "Csertán Tamás",
+  authors: [{ name: "Tamás Csertán", url: "https://tamascsertan.com" }],
+  creator: "Tamás Csertán",
+  publisher: "Tamás Csertán",
   keywords: [
     "Papsziget",
     "Szentendre",
@@ -61,7 +61,6 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    creator: "@csertant",
     title: siteTitle,
     description: siteDescription,
     images: ["/logo.png"],

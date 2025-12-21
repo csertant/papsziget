@@ -602,9 +602,9 @@ export default function Home() {
           </p>
           <p className="flex justify-between">
             <span className="underline">
-              ©{currentYear} <a href="https://csertant.hu" target="_blank" rel="noreferrer">tamás csertán</a> - Minden jog fenntartva.
+              ©{currentYear} <a href="https://tamascsertan.com" target="_blank" rel="noreferrer">tamás csertán</a> - Minden jog fenntartva.
             </span>
-            <span>1.0.1</span>
+            <span>1.0.2</span>
           </p>
         </footer>
       </section>
