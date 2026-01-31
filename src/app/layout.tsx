@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { IBM_Plex_Sans, Playfair_Display } from "next/font/google";
-import { WebshopProvider } from "./state";
-import { initialWebshopState } from "./domain";
+import { WebshopProvider } from "../lib/state";
+import { initialWebshopState } from "../data/domain";
 import "./globals.css";
 import "./remixicon.css";
 

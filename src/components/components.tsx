@@ -1,7 +1,7 @@
 "use client";
 
-import { initialObjects, type IslandObject } from "./domain";
-import { useWebshop } from "./state";
+import { initialObjects, type IslandObject } from "../data/domain";
+import { useWebshop } from "../lib/state";
 
 export function ThemeToggle() {
   const { theme, dispatch } = useWebshop();

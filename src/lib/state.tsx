@@ -10,7 +10,7 @@ import {
   WebshopState,
   initialWebshopState,
   IslandObject,
-} from "./domain";
+} from "../data/domain";
 
 type Action =
   | { type: "ADD_TO_CART"; object: IslandObject }

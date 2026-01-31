@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { IslandMap, ThemeToggle } from "./components";
-import { useWebshop } from "./state";
+import { IslandMap, ThemeToggle } from "../components/components";
+import { useWebshop } from "../lib/state";
 import {
   initialObjects,
   PAYMENT_OPTIONS,
   SHIPPING_OPTIONS,
   type IslandObject,
-} from "./domain";
+} from "../data/domain";
 
 const formatHuNumber = (value: number, fractionDigits = 0) =>
   new Intl.NumberFormat("de-DE", {
@@ -259,11 +259,10 @@ export default function Home() {
                 <button
                   key={option.id}
                   type="button"
-                  className={`w-full text-left border px-3 py-2 rounded ${
-                    checkout.selectedShipping === option.id
-                      ? "pill-filled pill-static"
-                      : "btn-ghost"
-                  }`}
+                  className={`w-full text-left border px-3 py-2 rounded ${checkout.selectedShipping === option.id
+                    ? "pill-filled pill-static"
+                    : "btn-ghost"
+                    }`}
                   onClick={() =>
                     dispatch({ type: "SET_SHIPPING_METHOD", method: option.id })
                   }
@@ -306,11 +305,10 @@ export default function Home() {
                 <button
                   key={option.id}
                   type="button"
-                  className={`w-full text-left border px-3 py-2 rounded ${
-                    checkout.selectedPayment === option.id
-                      ? "pill-filled pill-static"
-                      : "btn-ghost"
-                  }`}
+                  className={`w-full text-left border px-3 py-2 rounded ${checkout.selectedPayment === option.id
+                    ? "pill-filled pill-static"
+                    : "btn-ghost"
+                    }`}
                   onClick={() =>
                     dispatch({ type: "SET_PAYMENT", payment: option.id })
                   }
@@ -345,7 +343,7 @@ export default function Home() {
             <h3 className="uppercase tracking-[0.16em] text-xs">Összegzés</h3>
             <p>
               Ellenőrizd, a kosár tartalmát. Ha minden rendben, kattints a
-              „Megrendelés” gombra.
+              "Megrendelés" gombra.
             </p>
             <ul className="space-y-1 text-[11px]">
               <li>Név: {checkout.form.fullName || "nincs megadva"}</li>
@@ -478,9 +476,8 @@ export default function Home() {
           <nav className="flex items-center gap-2">
             <button
               type="button"
-              className={`btn-ghost rounded-full px-3 py-1 text-xs flex items-center gap-1 ${
-                isCartOpen ? "bg-[color:var(--accent-soft)]" : ""
-              }`}
+              className={`btn-ghost rounded-full px-3 py-1 text-xs flex items-center gap-1 ${isCartOpen ? "bg-[color:var(--accent-soft)]" : ""
+                }`}
               onClick={() => {
                 if (isCartOpen) {
                   closeCartModal();
@@ -556,7 +553,7 @@ export default function Home() {
               </h1>
               <p className="display-font text-md mb-3 text-justify">
                 Képzeletbeli online áruház, ahol a szentendrei Papsziget ember
-                által létrehozott tárgyait „vásárolhatod meg”. Miután mindent
+                által létrehozott tárgyait "vásárolhatod meg". Miután mindent
                 megvettek és elvittek, a sziget visszakerül a természet birtokába.
               </p>
               <p className="display-font text-sm mb-3 text-justify">
@@ -572,11 +569,10 @@ export default function Home() {
           )}
 
           <div
-            className={`absolute inset-0 bg-[color:var(--background)] border border-[color:var(--border)] p-4 transition-all duration-500 ease-out ${
-              isCartOpen
-                ? "translate-x-0 opacity-100 pointer-events-auto"
-                : "translate-x-full opacity-0 pointer-events-none"
-            }`}
+            className={`absolute inset-0 bg-[color:var(--background)] border border-[color:var(--border)] p-4 transition-all duration-500 ease-out ${isCartOpen
+              ? "translate-x-0 opacity-100 pointer-events-auto"
+              : "translate-x-full opacity-0 pointer-events-none"
+              }`}
           >
             <div className="flex justify-between items-start mb-3">
               <p className="display-font text-base uppercase tracking-[0.2em]">
