@@ -20,7 +20,7 @@ const playfair = Playfair_Display({
 
 const siteTitle = "Végső kiárusítás - Papsziget";
 const siteDescription =
-  "Képzeletbeli webshop, ahol a Papsziget ember alkotta tárgyait vásárolhatod meg ökológiai vállalásokkal.";
+  "Fiktív webshop, ahol a szentendrei Papsziget emberalkotta tárgyait vásárolhatod meg.";
 const siteUrl = "https://papsziget-kiarusitas.netlify.app";
 const analyticsWebsiteId = "21b98be8-1d90-404a-884b-a0db0171378a";
 

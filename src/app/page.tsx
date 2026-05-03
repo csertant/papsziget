@@ -88,7 +88,7 @@ export default function Home() {
                 {cart.map((item) => (
                   <li
                     key={item.object.id}
-                    className="flex items-start justify-between gap-2 border-b border-dotted border-[color:var(--border)] pb-1 last:border-b-0"
+                    className="flex items-start justify-between gap-2 border-b border-dotted border-(--border) pb-1 last:border-b-0"
                   >
                     <div>
                       <p className="display-font text-sm">{item.object.name}</p>
@@ -114,7 +114,7 @@ export default function Home() {
                 ))}
               </ul>
             )}
-            <div className="flex items-center justify-between text-xs border-t border-[color:var(--border)] pt-2">
+            <div className="flex items-center justify-between text-xs border-t border-(--border) pt-2">
               <span>Ár összesen</span>
               <span>{formatHuNumber(totalEco)} Ft</span>
             </div>
@@ -138,7 +138,7 @@ export default function Home() {
             <label className="block space-y-1">
               <span>Név</span>
               <input
-                className="w-full border border-[color:var(--border)] bg-transparent px-2 py-1"
+                className="w-full border border-(--border) bg-transparent px-2 py-1"
                 value={checkout.form.fullName}
                 required
                 onChange={(e) =>
@@ -149,7 +149,7 @@ export default function Home() {
             <label className="block space-y-1">
               <span>E-mail</span>
               <input
-                className="w-full border border-[color:var(--border)] bg-transparent px-2 py-1"
+                className="w-full border border-(--border) bg-transparent px-2 py-1"
                 value={checkout.form.email}
                 required
                 onChange={(e) =>
@@ -160,7 +160,7 @@ export default function Home() {
             <label className="block space-y-1">
               <span>Megjegyzés</span>
               <textarea
-                className="w-full border border-[color:var(--border)] bg-transparent px-2 py-1"
+                className="w-full border border-(--border) bg-transparent px-2 py-1"
                 rows={3}
                 value={checkout.form.notes}
                 onChange={(e) =>
@@ -171,7 +171,7 @@ export default function Home() {
             <label className="flex items-start gap-2 text-[11px]">
               <input
                 type="checkbox"
-                className="mt-0.5 h-4 w-4 border border-[color:var(--border)] bg-transparent accent-[color:var(--accent)]"
+                className="mt-0.5 h-4 w-4 border border-(--border) bg-transparent accent-(--accent)"
                 checked={checkout.form.consentToArtProject}
                 required
                 onChange={(e) =>
@@ -215,7 +215,7 @@ export default function Home() {
             <label className="block space-y-1">
               <span>Cím (utca, házszám)</span>
               <input
-                className="w-full border border-[color:var(--border)] bg-transparent px-2 py-1"
+                className="w-full border border-(--border) bg-transparent px-2 py-1"
                 value={checkout.form.addressLine}
                 onChange={(e) =>
                   dispatch({
@@ -229,7 +229,7 @@ export default function Home() {
               <label className="flex-1 space-y-1">
                 <span>Város</span>
                 <input
-                  className="w-full border border-[color:var(--border)] bg-transparent px-2 py-1"
+                  className="w-full border border-(--border) bg-transparent px-2 py-1"
                   value={checkout.form.city}
                   onChange={(e) =>
                     dispatch({
@@ -242,7 +242,7 @@ export default function Home() {
               <label className="w-24 space-y-1">
                 <span>Irányítószám</span>
                 <input
-                  className="w-full border border-[color:var(--border)] bg-transparent px-2 py-1"
+                  className="w-full border border-(--border) bg-transparent px-2 py-1"
                   value={checkout.form.postalCode}
                   onChange={(e) =>
                     dispatch({
@@ -379,7 +379,16 @@ export default function Home() {
           <div className="space-y-3 text-xs">
             <h3 className="uppercase tracking-[0.16em] text-xs">Köszönjük a vásárlásod!</h3>
             <p>
-              Fontos megjegyzés: Ez az oldal művészeti fikció. Az itt található tárgyak a valóságban nem feltétlenül eladóak és nincsenek az oldal készítője birtokában. Az oldalon valójában nem történik fizetés, nem történik adásvétel, és semmilyen kötelezettség nem keletkezik a vállalások teljesítésére.
+              Fontos megjegyzés: Ez az oldal fiktív webshop, egy művészeti projekt része.
+              Az itt található tárgyak a
+              valóságban nem feltétlenül eladóak, illetve nincsenek az oldal készítője
+              birtokában. Az oldalon közzétett információk nem minősülnek ajánlattételnek,
+              nem történik sem fizetés, sem adásvétel, és semmilyen kötelezettség nem
+              keletkezik vállalások teljesítésére.
+              Az oldalon találhatóak adatmezők, melyek utánozzák a szokásos személyes adatokat
+              gyűjtő mezők viselkedését, viszont az itt megadott információk csak lokálisan kerülnek
+              tárolásra és semmilyen módon nincsenek továbbítva feldolgozásra. Az oldal nem gyűjt,
+              nem tárol és nem továbbít személyes adatokat.
             </p>
             <button
               type="button"
@@ -403,10 +412,10 @@ export default function Home() {
   return (
     <main className="app-shell flex flex-col md:flex-row min-h-screen md:h-screen md:max-h-screen px-2 py-2 md:px-4 md:py-4 gap-4 md:gap-2 overflow-visible md:overflow-hidden">
       <section className="relative flex-1 flex items-center justify-center w-full min-h-[60vh] md:min-h-0">
-        <div className="absolute top-0 right-0 z-20 flex rounded-full border border-[color:var(--border)] overflow-hidden bg-[color:var(--background-elevated)]">
+        <div className="absolute top-0 right-0 z-20 flex rounded-full border border-(--border) overflow-hidden bg-(--background-elevated)">
           <button
             type="button"
-            className={`flex items-center gap-1 px-3 py-1 text-xs ${viewMode === "map" ? "bg-[color:var(--accent-soft)]" : ""}`}
+            className={`flex items-center gap-1 px-3 py-1 text-xs ${viewMode === "map" ? "bg-(--accent-soft)" : ""}`}
             onClick={(e) => {
               e.stopPropagation();
               setViewMode("map");
@@ -417,7 +426,7 @@ export default function Home() {
           </button>
           <button
             type="button"
-            className={`flex items-center gap-1 px-3 py-1 text-xs ${viewMode === "list" ? "bg-[color:var(--accent-soft)]" : ""}`}
+            className={`flex items-center gap-1 px-3 py-1 text-xs ${viewMode === "list" ? "bg-(--accent-soft)" : ""}`}
             onClick={(e) => {
               e.stopPropagation();
               setViewMode("list");
@@ -440,7 +449,7 @@ export default function Home() {
             <IslandMap onHoverObject={handleHover} onPinObject={handlePin} />
           ) : (
             <div
-              className="absolute inset-0 p-4 md:p-0 md:p-10 bg-[color:var(--background)] overflow-y-auto no-scrollbar"
+              className="absolute inset-0 p-4 md:p-10 bg-(--background) overflow-y-auto no-scrollbar"
               onClick={(e) => {
                 if (e.target === e.currentTarget) {
                   setPinnedObject(null);
@@ -448,11 +457,11 @@ export default function Home() {
               }}
               onMouseLeave={() => setHoverObject(null)}
             >
-              <ul className="divide-y divide-[color:var(--border)]">
+              <ul className="divide-y divide-(--border)">
                 {initialObjects.map((obj) => (
                   <li
                     key={obj.id}
-                    className="flex items-center justify-between gap-4 px-4 py-3 cursor-pointer transition-colors hover:bg-[color:var(--background-elevated)]"
+                    className="flex items-center justify-between gap-4 px-4 py-3 cursor-pointer transition-colors hover:bg-(--background-elevated)"
                     onMouseEnter={() => handleHover(obj)}
                     onMouseLeave={() => handleHover(null)}
                     onClick={() => handlePin(obj)}
@@ -476,7 +485,7 @@ export default function Home() {
           <nav className="flex items-center gap-2">
             <button
               type="button"
-              className={`btn-ghost rounded-full px-3 py-1 text-xs flex items-center gap-1 ${isCartOpen ? "bg-[color:var(--accent-soft)]" : ""
+              className={`btn-ghost rounded-full px-3 py-1 text-xs flex items-center gap-1 ${isCartOpen ? "bg-(--accent-soft)" : ""
                 }`}
               onClick={() => {
                 if (isCartOpen) {
@@ -499,12 +508,12 @@ export default function Home() {
 
         <div className="relative flex-1 flex flex-col gap-3 overflow-hidden">
           {activeObject ? (
-            <section className="bg-[color:var(--background-elevated)]">
+            <section className="bg-(--background-elevated)">
               <h2 className="mb-3 text-lg font-semibold uppercase tracking-[0.12em]">
                 {activeObject.name}
               </h2>
               {activeObject.imagePath && (
-                <div className="mb-3 w-full max-h-72 flex items-start justify-start overflow-hidden bg-[color:var(--background-elevated)]">
+                <div className="mb-3 w-full max-h-72 flex items-start justify-start overflow-hidden bg-(--background-elevated)">
                   <img
                     src={activeObject.imagePath}
                     alt={activeObject.name}
@@ -552,9 +561,9 @@ export default function Home() {
                 Végső kiárusítás - Papsziget
               </h1>
               <p className="display-font text-md mb-3 text-justify">
-                Képzeletbeli online áruház, ahol a szentendrei Papsziget ember
-                által létrehozott tárgyait "vásárolhatod meg". Miután mindent
-                megvettek és elvittek, a sziget visszakerül a természet birtokába.
+                Fiktív online áruház, ahol a szentendrei Papsziget emberalkotta
+                tárgyait "vásárolhatod meg". Miután mindent megvettek és elvittek,
+                a sziget visszakerül a természet birtokába.
               </p>
               <p className="display-font text-sm mb-3 text-justify">
                 A térképen jelölt pontokra kattintva böngészhetsz a
@@ -562,14 +571,14 @@ export default function Home() {
               </p>
               <p className="display-font text-sm text-justify">
                 A tárgyak száma folyamatosan bővül. Ha van egy jó fotód egy
-                tárgyról a szigeten, amit szívesen látnál az oldalon, küldd el {" "}
-                <a className="underline" href="mailto:csertant@edu.bme.hu">erre</a> a címre.
+                tárgyról a szigeten, amit szívesen látnál az oldalon, {" "}
+                <a className="underline" href="mailto:csertant@edu.bme.hu">küldd el</a>.
               </p>
             </section>
           )}
 
           <div
-            className={`absolute inset-0 bg-[color:var(--background)] border border-[color:var(--border)] p-4 transition-all duration-500 ease-out ${isCartOpen
+            className={`absolute inset-0 bg-(--background) border border-(--border) p-4 transition-all duration-500 ease-out ${isCartOpen
               ? "translate-x-0 opacity-100 pointer-events-auto"
               : "translate-x-full opacity-0 pointer-events-none"
               }`}
@@ -594,13 +603,21 @@ export default function Home() {
 
         <footer className="pt-3 text-[8px] space-y-2">
           <p className="text-justify">
-            Ez az oldal egy művészeti projekt része. Az itt található tárgyak a valóságban nem feltétlenül eladóak és nincsenek az oldal készítője birtokában. Az oldalon valójában nem történik fizetés, nem történik adásvétel, és semmilyen kötelezettség nem keletkezik a vállalások teljesítésére. Az oldalon találhatóak mezők, melyek másolják a szokásos személyes adatokat gyűjtő mezők viselkedését, viszont az itt megadott adatok csak lokálisan kerülnek tárolásra és nincsenek továbbítva feldolgozásra.
+            Ez az oldal fiktív webshop, egy művészeti projekt része. Az itt található tárgyak a
+            valóságban nem feltétlenül eladóak, illetve nincsenek az oldal készítője
+            birtokában. Az oldalon közzétett információk nem minősülnek ajánlattételnek,
+            nem történik sem fizetés, sem adásvétel, és semmilyen kötelezettség nem
+            keletkezik vállalások teljesítésére.
+            Az oldalon találhatóak adatmezők, melyek utánozzák a szokásos személyes adatokat
+            gyűjtő mezők viselkedését, viszont az itt megadott információk csak lokálisan kerülnek
+            tárolásra és semmilyen módon nincsenek továbbítva feldolgozásra. Az oldal nem gyűjt,
+            nem tárol és nem továbbít személyes adatokat.
           </p>
           <p className="flex justify-between">
             <span className="underline">
               ©{currentYear} <a href="https://tamascsertan.com" target="_blank" rel="noreferrer">tamás csertán</a> - Minden jog fenntartva.
             </span>
-            <span>1.0.2</span>
+            <span>1.1.0</span>
           </p>
         </footer>
       </section>

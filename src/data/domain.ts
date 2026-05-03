@@ -5,8 +5,8 @@ export type TrashPaymentOption =
 
 export interface PaymentOption {
   id: TrashPaymentOption;
-  label: string; // Hungarian label shown to the user
-  description: string; // Hungarian description
+  label: string; // Label shown to the user
+  description: string; // Description shown to the user
 }
 
 export const PAYMENT_OPTIONS: PaymentOption[] = [
@@ -14,19 +14,19 @@ export const PAYMENT_OPTIONS: PaymentOption[] = [
     id: "trash",
     label: "Szemét elszállítása",
     description:
-      "Vállalom, hogy legalább 5 kilogramm hulladékot gyűjtök és elszállítok a szigetről.",
+      "Vállalom, hogy legalább 5 kilogramm hulladékot összegyűjtök és elszállítom a szigetről.",
   },
   {
     id: "trees",
     label: "Faültetés",
     description:
-      "Vállalom, hogy legalább 1 őshonos fát ültetek a kijelölt területen.",
+      "Vállalom, hogy legalább 1 őshonos fajtájú fát ültetek a területen.",
   },
   {
     id: "construction_waste",
     label: "Építési hulladék elszállítása",
     description:
-      "Vállalom, hogy legalább 100 kilogramm építési hulladékot elszállítom a szigetről.",
+      "Vállalom, hogy legalább 100 kilogramm építési hulladékot elszállítok a szigetről.",
   },
 ];
 
@@ -41,18 +41,18 @@ export interface ShippingOption {
 export const SHIPPING_OPTIONS: ShippingOption[] = [
   {
     id: "self_pickup",
-    label: "Személyes átvétel",
-    description: "Saját magam viszem el a tárgyakat a Papszigetről.",
+    label: "Személyes átvétel közúton",
+    description: "Saját magam viszem el a tárgyakat biciklivel / gépjárművel.",
   },
   {
     id: "water_taxi",
     label: "Vízi taxi",
-    description: "Hajóval viszem el a tárgyakat, saját szervezésben.",
+    description: "Hajóval viszem el a tárgyakat.",
   },
   {
     id: "delivery_agency",
     label: "Futárszolgálat",
-    description: "Helyi szállítócég segítségével juttatom el a tárgyakat a választott címre.",
+    description: "Helyi szállítócég segítségét veszem igénybe.",
   },
 ];
 
@@ -126,13 +126,11 @@ export interface WebshopState {
   theme: ThemeState;
 }
 
-// Generated from files in /public/objects. You can later fill in
-// description, category, cost, material, dimensions, and weightKg.
 export const initialObjects: IslandObject[] = [
   {
     id: "A3F9Z1",
     name: "Acél kábel",
-    description: "Három eres acél kábel köteg. Néhol hozzá van erősítve egy szigeteletlen acél kábel is, ami valószínűleg földelővezeték lehetett.",
+    description: "Három eres acél kábel. Néhol hozzá van erősítve egy szigeteletlen kábel is, ami valószínűleg földelővezeték lehetett.",
     category: "tárgy",
     location: { x: 48, y: 64 },
     cost: 5600,
@@ -146,7 +144,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "B7K2M9",
     name: "Ajtólakk",
-    description: "Pergő ajtólakk, kék színben.",
+    description: "Felrepedt, hámló ajtólakk, kék színben.",
     category: "hulladék",
     location: { x: 48, y: 66 },
     cost: 150,
@@ -174,7 +172,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "D9L4S2",
     name: "Beton járólap",
-    description: "Egyszerű beton járólap.",
+    description: "Közönséges beton járólap.",
     category: "hulladék",
     location: { x: 46.8, y: 64.8 },
     cost: 120,
@@ -188,7 +186,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "E5R7P1",
     name: "Beton kerti garnitúra",
-    description: "2 U alakú beton pad és egy négyszögletes beton asztal.",
+    description: "W alakú beton pad és egy négyszögletes beton asztal.",
     category: "építmény",
     location: { x: 36, y: 64 },
     cost: 149000,
@@ -202,7 +200,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "F6Q3N8",
     name: "Beton kocka",
-    description: "Beton kocka, közepén acél rúd csonkkal.",
+    description: "Beton kocka, közepén acélrúd csonkkal.",
     category: "hulladék",
     location: { x: 35, y: 56 },
     cost: 1500,
@@ -244,7 +242,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "J4C6D9",
     name: "Fa kerítésoszlop",
-    description: "Vörösre lakkozott fa kerítésoszlop a kemping területén.",
+    description: "Vörösre lakkozott fa kerítésoszlop a kemping kerítéséből.",
     category: "építmény",
     location: { x: 58.2, y: 22.5 },
     cost: 5490,
@@ -300,7 +298,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "N5V8E3",
     name: "Fém kerítéskapu",
-    description: "Zöldre lakkozott fém kerítéskapu a csónakház hátsó bejáratáról.",
+    description: "Zöldre lakkozott fém kerítéskapu a csónakház hátsó bejáratából.",
     category: "tárgy",
     location: { x: 57.6, y: 53 },
     cost: 26000,
@@ -314,7 +312,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "P2H6Q8",
     name: "Fém kerítésoszlop (sarok)",
-    description: "Zöldre lakkozott fém kerítésoszlop a kerítés sarkán.",
+    description: "Zöldre lakkozott fém kerítésoszlop sarokelem.",
     category: "tárgy",
     location: { x: 52, y: 68 },
     cost: 8000,
@@ -412,7 +410,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "V3N5H8",
     name: "I-tartó",
-    description: "Acélból készült I-tartó szerkezet.",
+    description: "Acélból I-tartó szerkezet.",
     category: "építmény",
     location: { x: 46.5, y: 63 },
     cost: 12000,
@@ -440,7 +438,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "X9H2L3",
     name: "Kandeláber",
-    description: "Bézsszínűre festett kandeláber világítótesttel.",
+    description: "Bézsszínűre festett kandeláber, világítótesttel.",
     category: "tárgy",
     location: { x: 41, y: 58 },
     cost: 32000,
@@ -454,7 +452,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "Y5D8P4",
     name: "Lépcsős biztosítószekrény és hitéleti hely",
-    description: "Áramhálózati kapcsolószekrény az árvízszint fölé helyezve beton posztamensen, 3 lépcsőfokkal megközelíthető módon.",
+    description: "Elektromos hálózat apcsolószekrénye az árvízszint fölé helyezve beton posztamensen.",
     category: "építmény",
     location: { x: 39, y: 68.3 },
     cost: 120000,
@@ -468,7 +466,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "Z7M1Q9",
     name: "Minigolf pálya",
-    description: "3 domborból álló minigolf pálya műanyag szegéllyel.",
+    description: "3 domborból álló minigolf pálya.",
     category: "építmény",
     location: { x: 37, y: 67 },
     cost: 210000,
@@ -496,7 +494,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "B4L7C2",
     name: "Pad",
-    description: "Fehérre festett beton támaszokon nyugvó fa pad. A fa részek vörösre vannak festve.",
+    description: "Beton támaszokra szerelt pad fa ülőkével.",
     category: "tárgy",
     location: { x: 60, y: 35 },
     cost: 25000,
@@ -524,7 +522,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "R21VB3",
     name: "Pozdorja lap",
-    description: "Kékre mázolt pozdorja lap, valószínűleg ajtó része lehetett.",
+    description: "Kékre mázolt pozdorja lap, valószínűleg egy ajtó része lehetett.",
     category: "hulladék",
     location: { x: 47.3, y: 66.5 },
     cost: 980,
@@ -580,7 +578,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "G3H8D4",
     name: "Nagy stég",
-    description: "Fa deszkákból készült nagy stég. Téglalap alakú stéghez kis rámpa vezet.",
+    description: "Fa deszkákból készült nagy stég. A téglalap alakú stéghez kis rámpa vezet.",
     category: "tárgy",
     location: { x: 61.6, y: 57 },
     cost: 60000,
@@ -622,7 +620,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "K1M4V7",
     name: "Terelő bója",
-    description: "Rikító narancssárga terelő bója, fehér csíkkal.",
+    description: "Rikító narancssárga terelő bója, fényvisszaverő csíkkal.",
     category: "tárgy",
     location: { x: 31, y: 34.5 },
     cost: 2800,
@@ -706,7 +704,7 @@ export const initialObjects: IslandObject[] = [
   {
     id: "R9H4C1",
     name: "Vízcsap és edény",
-    description: "Szabvány kék vízcsap és egy öntöttvas edény alatta.",
+    description: "Szabvány kék vízcsap, alatta öntöttvas edény.",
     category: "tárgy",
     location: { x: 40, y: 45 },
     cost: 7000,

@@ -24,12 +24,12 @@ export function IslandMap({
   onHoverObject?: (obj: IslandObject | null) => void;
   onPinObject?: (obj: IslandObject) => void;
 }) {
-  useWebshop();
+  const { theme } = useWebshop();
 
   return (
     <div className="relative w-full aspect-square overflow-hidden">
       <img
-        src="/terkep.png"
+        src={theme.mode === "dark" ? "/terkep_sotet.png" : "/terkep.png"}
         alt="Papsziget stilizált térképe"
         className="absolute inset-0 h-full w-full object-cover"
       />
@@ -37,7 +37,7 @@ export function IslandMap({
         <button
           key={obj.id}
           type="button"
-          className="absolute -translate-x-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-[color:var(--accent)] hover:scale-125 transition-transform"
+          className="absolute -translate-x-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-(--accent) hover:scale-125 transition-transform"
           style={{ left: `${obj.location.x}%`, top: `${obj.location.y}%` }}
           onMouseEnter={() => onHoverObject?.(obj)}
           onMouseLeave={() => onHoverObject?.(null)}
