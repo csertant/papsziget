@@ -20,7 +20,8 @@ type Action =
   | { type: "UPDATE_CHECKOUT_FORM"; form: Partial<CheckoutFormData> }
   | { type: "SET_PAYMENT"; payment: TrashPaymentOption | undefined }
   | { type: "SET_SHIPPING_METHOD"; method: ShippingMethod | undefined }
-  | { type: "TOGGLE_THEME" };
+  | { type: "TOGGLE_THEME" }
+  | { type: "SET_LANGUAGE"; language: "hu" | "en" };
 
 interface WebshopContextValue extends WebshopState {
   dispatch: (action: Action) => void;
@@ -123,6 +124,14 @@ function reducer(state: WebshopState, action: Action): WebshopState {
         },
       };
     }
+    case "SET_LANGUAGE": {
+      return {
+        ...state,
+        language: {
+          current: action.language,
+        },
+      };
+    }
     default:
       return state;
   }
@@ -145,8 +154,8 @@ export function WebshopProvider({
       if (!raw) return;
       const parsed = JSON.parse(raw) as Partial<WebshopState>;
       if (!parsed) return;
-      // Only merge cart and theme; keep current checkout step by default
-      if (parsed.cart || parsed.theme) {
+      // Only merge cart, theme, and language; keep current checkout step by default
+      if (parsed.cart || parsed.theme || parsed.language) {
         dispatch({
           // custom internal action via type assertion
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -158,12 +167,13 @@ export function WebshopProvider({
     }
   }, []);
 
-  // Persist cart and theme on change
+  // Persist cart, theme, and language on change
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const toStore: Pick<WebshopState, "cart" | "theme"> = {
+    const toStore: Pick<WebshopState, "cart" | "theme" | "language"> = {
       cart: state.cart,
       theme: state.theme,
+      language: state.language,
     };
     try {
       window.localStorage.setItem(
@@ -173,7 +183,7 @@ export function WebshopProvider({
     } catch {
       // ignore write errors (e.g. private mode)
     }
-  }, [state.cart, state.theme]);
+  }, [state.cart, state.theme, state.language]);
 
   const value = useMemo<WebshopContextValue>(
     () => ({ ...state, dispatch }),

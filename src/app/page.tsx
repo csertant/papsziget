@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { IslandMap, ThemeToggle } from "../components/components";
+import { IslandMap, ThemeToggle, LanguageToggle } from "../components/components";
 import { useWebshop } from "../lib/state";
+import { useTranslation } from "../lib/i18n";
 import {
   initialObjects,
   PAYMENT_OPTIONS,
@@ -17,7 +18,8 @@ const formatHuNumber = (value: number, fractionDigits = 0) =>
   }).format(value);
 
 export default function Home() {
-  const { theme, cart, checkout, dispatch } = useWebshop();
+  const { theme, cart, checkout, language, dispatch } = useWebshop();
+  const { t, currentLang } = useTranslation(language);
   const [hoverObject, setHoverObject] = useState<IslandObject | null>(null);
   const [pinnedObject, setPinnedObject] = useState<IslandObject | null>(null);
   const [viewMode, setViewMode] = useState<"map" | "list">("map");
@@ -58,19 +60,15 @@ export default function Home() {
   };
 
   const getSelectedPaymentLabel = () => {
-    if (!checkout.selectedPayment) return "nincs kiválasztva";
-    return (
-      PAYMENT_OPTIONS.find((opt) => opt.id === checkout.selectedPayment)?.label ??
-      checkout.selectedPayment
-    );
+    if (!checkout.selectedPayment) return t("notSelected");
+    const option = PAYMENT_OPTIONS.find((opt) => opt.id === checkout.selectedPayment);
+    return option ? option.label[currentLang] : checkout.selectedPayment;
   };
 
   const getSelectedShippingLabel = () => {
-    if (!checkout.selectedShipping) return "nincs kiválasztva";
-    return (
-      SHIPPING_OPTIONS.find((opt) => opt.id === checkout.selectedShipping)?.label ??
-      checkout.selectedShipping
-    );
+    if (!checkout.selectedShipping) return t("notSelected");
+    const option = SHIPPING_OPTIONS.find((opt) => opt.id === checkout.selectedShipping);
+    return option ? option.label[currentLang] : checkout.selectedShipping;
   };
 
   const renderCheckoutPage = () => {
@@ -78,11 +76,9 @@ export default function Home() {
       case "cart":
         return (
           <div className="space-y-3 text-sm">
-            <h3 className="uppercase tracking-[0.16em] text-xs">Kosár tartalma</h3>
+            <h3 className="uppercase tracking-[0.16em] text-xs">{t("cartTitle")}</h3>
             {cart.length === 0 ? (
-              <p className="text-xs">
-                A kosarad üres. A térképen jelölt pontokra kattintva adhatsz hozzá tárgyakat.
-              </p>
+              <p className="text-xs">{t("cartEmpty")}</p>
             ) : (
               <ul className="space-y-2">
                 {cart.map((item) => (
@@ -91,14 +87,14 @@ export default function Home() {
                     className="flex items-start justify-between gap-2 border-b border-dotted border-(--border) pb-1 last:border-b-0"
                   >
                     <div>
-                      <p className="display-font text-sm">{item.object.name}</p>
-                      <p className="text-xs">{item.object.description}</p>
-                      <p className="text-xs">Mennyiség: {item.quantity}</p>
+                      <p className="display-font text-sm">{item.object.name[currentLang]}</p>
+                      <p className="text-xs">{item.object.description[currentLang]}</p>
+                      <p className="text-xs">{t("quantity")} {item.quantity}</p>
                       <p className="text-xs">
-                        Egységár: {formatHuNumber(item.object.cost)} {item.object.costUnit}
+                        {t("unitPrice")} {formatHuNumber(item.object.cost)} {item.object.costUnit[currentLang]}
                       </p>
                       <p className="text-xs font-semibold">
-                        Összesen: {formatHuNumber(item.object.cost * item.quantity)} Ft
+                        {t("total")} {formatHuNumber(item.object.cost * item.quantity)} {t("currency")}
                       </p>
                     </div>
                     <button
@@ -107,36 +103,30 @@ export default function Home() {
                       onClick={() =>
                         dispatch({ type: "REMOVE_FROM_CART", objectId: item.object.id })
                       }
-                    >
-                      törlés
-                    </button>
+                    >{t("delete")}</button>
                   </li>
                 ))}
               </ul>
             )}
             <div className="flex items-center justify-between text-xs border-t border-(--border) pt-2">
-              <span>Ár összesen</span>
-              <span>{formatHuNumber(totalEco)} Ft</span>
+              <span>{t("totalPrice")}</span>
+              <span>{formatHuNumber(totalEco)} {t("currency")}</span>
             </div>
             <button
               type="button"
               className="pill-filled w-full rounded-full py-2 text-xs uppercase tracking-[0.2em]"
               disabled={cart.length === 0}
-              onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "adatok" })}
-            >
-              Tovább a vásárláshoz
-            </button>
+              onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "data" })}
+            >{t("checkoutNext")}</button>
           </div>
         );
-      case "adatok":
+      case "data":
         return (
           <div className="space-y-3 text-xs">
-            <h3 className="uppercase tracking-[0.16em] text-xs">Adatok</h3>
-            <p>
-              Kérjük töltsd ki az alábbi mezőket.
-            </p>
+            <h3 className="uppercase tracking-[0.16em] text-xs">{t("checkoutDataTitle")}</h3>
+            <p>{t("checkoutDataDesc")}</p>
             <label className="block space-y-1">
-              <span>Név</span>
+              <span>{t("nameLabel")}</span>
               <input
                 className="w-full border border-(--border) bg-transparent px-2 py-1"
                 value={checkout.form.fullName}
@@ -147,7 +137,7 @@ export default function Home() {
               />
             </label>
             <label className="block space-y-1">
-              <span>E-mail</span>
+              <span>{t("emailLabel")}</span>
               <input
                 className="w-full border border-(--border) bg-transparent px-2 py-1"
                 value={checkout.form.email}
@@ -158,7 +148,7 @@ export default function Home() {
               />
             </label>
             <label className="block space-y-1">
-              <span>Megjegyzés</span>
+              <span>{t("notesLabel")}</span>
               <textarea
                 className="w-full border border-(--border) bg-transparent px-2 py-1"
                 rows={3}
@@ -181,18 +171,14 @@ export default function Home() {
                   })
                 }
               />
-              <span>
-                Elolvastam és elfogadom az oldal alján található feltételeket.
-              </span>
+              <span>{t("consentLabel")}</span>
             </label>
             <div className="flex justify-between pt-2">
               <button
                 type="button"
                 className="btn-ghost px-3 py-1 text-[10px]"
                 onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "cart" })}
-              >
-                Vissza
-              </button>
+              >{t("backButton")}</button>
               <button
                 type="button"
                 className="pill-filled rounded-full px-4 py-1 text-[10px] disabled:opacity-50"
@@ -201,19 +187,17 @@ export default function Home() {
                   !checkout.form.email ||
                   !checkout.form.consentToArtProject
                 }
-                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "szallitas" })}
-              >
-                Szállítási adatok
-              </button>
+                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "shipping" })}
+              >{t("shippingNextButton")}</button>
             </div>
           </div>
         );
-      case "szallitas":
+      case "shipping":
         return (
           <div className="space-y-3 text-xs">
-            <h3 className="uppercase tracking-[0.16em] text-xs">Szállítási adatok</h3>
+            <h3 className="uppercase tracking-[0.16em] text-xs">{t("shippingTitle")}</h3>
             <label className="block space-y-1">
-              <span>Cím (utca, házszám)</span>
+              <span>{t("addressLabel")}</span>
               <input
                 className="w-full border border-(--border) bg-transparent px-2 py-1"
                 value={checkout.form.addressLine}
@@ -227,7 +211,7 @@ export default function Home() {
             </label>
             <div className="flex gap-2">
               <label className="flex-1 space-y-1">
-                <span>Város</span>
+                <span>{t("cityLabel")}</span>
                 <input
                   className="w-full border border-(--border) bg-transparent px-2 py-1"
                   value={checkout.form.city}
@@ -240,7 +224,7 @@ export default function Home() {
                 />
               </label>
               <label className="w-24 space-y-1">
-                <span>Irányítószám</span>
+                <span>{t("postalCodeLabel")}</span>
                 <input
                   className="w-full border border-(--border) bg-transparent px-2 py-1"
                   value={checkout.form.postalCode}
@@ -254,7 +238,7 @@ export default function Home() {
               </label>
             </div>
             <div className="space-y-2">
-              <p>Válassz szállítási módot</p>
+              <p>{t("shippingChooseDesc")}</p>
               {SHIPPING_OPTIONS.map((option) => (
                 <button
                   key={option.id}
@@ -267,8 +251,8 @@ export default function Home() {
                     dispatch({ type: "SET_SHIPPING_METHOD", method: option.id })
                   }
                 >
-                  <p className="display-font text-sm">{option.label}</p>
-                  <p className="text-[10px]">{option.description}</p>
+                  <p className="display-font text-sm">{option.label[currentLang]}</p>
+                  <p className="text-[10px]">{option.description[currentLang]}</p>
                 </button>
               ))}
             </div>
@@ -276,10 +260,8 @@ export default function Home() {
               <button
                 type="button"
                 className="btn-ghost px-3 py-1 text-[10px]"
-                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "adatok" })}
-              >
-                Vissza
-              </button>
+                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "data" })}
+              >{t("backButton")}</button>
               <button
                 type="button"
                 className="pill-filled rounded-full px-4 py-1 text-[10px] disabled:opacity-50"
@@ -289,17 +271,15 @@ export default function Home() {
                   !checkout.form.city ||
                   !checkout.form.postalCode
                 }
-                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "fizetes" })}
-              >
-                Fizetési mód
-              </button>
+                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "payment" })}
+              >{t("paymentNextButton")}</button>
             </div>
           </div>
         );
-      case "fizetes":
+      case "payment":
         return (
           <div className="space-y-3 text-xs">
-            <h3 className="uppercase tracking-[0.16em] text-xs">Válassz fizetési módot</h3>
+            <h3 className="uppercase tracking-[0.16em] text-xs">{t("paymentTitle")}</h3>
             <div className="space-y-2">
               {PAYMENT_OPTIONS.map((option) => (
                 <button
@@ -313,8 +293,8 @@ export default function Home() {
                     dispatch({ type: "SET_PAYMENT", payment: option.id })
                   }
                 >
-                  <p className="display-font text-sm">{option.label}</p>
-                  <p className="text-[10px]">{option.description}</p>
+                  <p className="display-font text-sm">{option.label[currentLang]}</p>
+                  <p className="text-[10px]">{option.description[currentLang]}</p>
                 </button>
               ))}
             </div>
@@ -322,74 +302,52 @@ export default function Home() {
               <button
                 type="button"
                 className="btn-ghost px-3 py-1 text-[10px]"
-                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "szallitas" })}
-              >
-                Vissza
-              </button>
+                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "shipping" })}
+              >{t("backButton")}</button>
               <button
                 type="button"
                 className="pill-filled rounded-full px-4 py-1 text-[10px] disabled:opacity-50"
                 disabled={!checkout.selectedPayment}
-                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "osszegzes" })}
-              >
-                Összegzés
-              </button>
+                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "summary" })}
+              >{t("summaryNextButton")}</button>
             </div>
           </div>
         );
-      case "osszegzes":
+      case "summary":
         return (
           <div className="space-y-3 text-xs">
-            <h3 className="uppercase tracking-[0.16em] text-xs">Összegzés</h3>
-            <p>
-              Ellenőrizd, a kosár tartalmát. Ha minden rendben, kattints a
-              "Megrendelés" gombra.
-            </p>
+            <h3 className="uppercase tracking-[0.16em] text-xs">{t("summaryTitle")}</h3>
+            <p>{t("summaryDesc")}</p>
             <ul className="space-y-1 text-[11px]">
-              <li>Név: {checkout.form.fullName || "nincs megadva"}</li>
-              <li>E-mail: {checkout.form.email || "nincs megadva"}</li>
-              <li>Megjegyzés: {checkout.form.notes || "nincs megadva"}</li>
+              <li>{t("summaryName")} {checkout.form.fullName || t("notProvided")}</li>
+              <li>{t("summaryEmail")} {checkout.form.email || t("notProvided")}</li>
+              <li>{t("summaryNotes")} {checkout.form.notes || t("notProvided")}</li>
               <li>
-                Szállítási cím: {shippingAddressDisplay || "nincs megadva"}
+                {t("summaryAddress")} {shippingAddressDisplay || t("notProvided")}
               </li>
-              <li>Szállítás módja: {getSelectedShippingLabel()}</li>
-              <li>Fizetés módja: {getSelectedPaymentLabel()}</li>
-              <li>Tárgyak: {totalItems || 0} db</li>
+              <li>{t("summaryShippingMethod")} {getSelectedShippingLabel()}</li>
+              <li>{t("summaryPaymentMethod")} {getSelectedPaymentLabel()}</li>
+              <li>{t("summaryItems")} {totalItems || 0}</li>
             </ul>
             <div className="flex justify-between pt-2">
               <button
                 type="button"
                 className="btn-ghost px-3 py-1 text-[10px]"
-                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "fizetes" })}
-              >
-                Vissza
-              </button>
+                onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "payment" })}
+              >{t("backButton")}</button>
               <button
                 type="button"
                 className="pill-filled rounded-full px-4 py-1 text-[10px]"
                 onClick={() => dispatch({ type: "SET_CHECKOUT_STEP", step: "art_notice" })}
-              >
-                Megrendelés
-              </button>
+              >{t("placeOrderButton")}</button>
             </div>
           </div>
         );
       case "art_notice":
         return (
           <div className="space-y-3 text-xs">
-            <h3 className="uppercase tracking-[0.16em] text-xs">Köszönjük a vásárlásod!</h3>
-            <p>
-              Fontos megjegyzés: Ez az oldal fiktív webshop, egy művészeti projekt része.
-              Az itt található tárgyak a
-              valóságban nem feltétlenül eladóak, illetve nincsenek az oldal készítője
-              birtokában. Az oldalon közzétett információk nem minősülnek ajánlattételnek,
-              nem történik sem fizetés, sem adásvétel, és semmilyen kötelezettség nem
-              keletkezik vállalások teljesítésére.
-              Az oldalon találhatóak adatmezők, melyek utánozzák a szokásos személyes adatokat
-              gyűjtő mezők viselkedését, viszont az itt megadott információk csak lokálisan kerülnek
-              tárolásra és semmilyen módon nincsenek továbbítva feldolgozásra. Az oldal nem gyűjt,
-              nem tárol és nem továbbít személyes adatokat.
-            </p>
+            <h3 className="uppercase tracking-[0.16em] text-xs">{t("successTitle")}</h3>
+            <p>{t("successDesc")}</p>
             <button
               type="button"
               className="pill-filled w-full rounded-full px-4 py-2 text-[10px]"
@@ -399,9 +357,7 @@ export default function Home() {
                 setHoverObject(null);
                 closeCartModal();
               }}
-            >
-              Vissza a kezdőlapra
-            </button>
+            >{t("backToHomeButton")}</button>
           </div>
         );
       default:
@@ -422,7 +378,7 @@ export default function Home() {
             }}
           >
             <i className="ri-map-2-line text-xs" aria-hidden />
-            Térkép
+            {t("mapButton")}
           </button>
           <button
             type="button"
@@ -434,7 +390,7 @@ export default function Home() {
             }}
           >
             <i className="ri-list-unordered text-xs" aria-hidden />
-            Lista
+            {t("listButton")}
           </button>
         </div>
         <div
@@ -467,9 +423,9 @@ export default function Home() {
                     onClick={() => handlePin(obj)}
                   >
                     <div className="space-y-1">
-                      <p className="display-font text-base">{obj.name}</p>
+                      <p className="display-font text-base">{obj.name[currentLang]}</p>
                       {obj.cost > 0 && (
-                        <p className="text-sm">{formatHuNumber(obj.cost)} {obj.costUnit}</p>
+                        <p className="text-sm">{formatHuNumber(obj.cost)} {obj.costUnit[currentLang]}</p>
                       )}
                     </div>
                   </li>
@@ -498,10 +454,11 @@ export default function Home() {
             >
               <i className="ri-shopping-cart-line text-xs" aria-hidden />
               <span>
-                Kosár
+                {t("cartButton")}
                 {totalItems > 0 ? ` (${totalItems})` : ""}
               </span>
             </button>
+            <LanguageToggle />
             <ThemeToggle />
           </nav>
         </header>
@@ -510,28 +467,28 @@ export default function Home() {
           {activeObject ? (
             <section className="bg-(--background-elevated)">
               <h2 className="mb-3 text-lg font-semibold uppercase tracking-[0.12em]">
-                {activeObject.name}
+                {activeObject.name[currentLang]}
               </h2>
               {activeObject.imagePath && (
                 <div className="mb-3 w-full max-h-72 flex items-start justify-start overflow-hidden bg-(--background-elevated)">
                   <img
                     src={activeObject.imagePath}
-                    alt={activeObject.name}
+                    alt={activeObject.name[currentLang]}
                     className="max-h-72 w-auto max-w-full"
                   />
                 </div>
               )}
               <div className="space-y-2">
-                <p className="text-lg mb-4">{activeObject.description}</p>
-                <p className="text-sm uppercase tracking-[0.16em] mb-4">{activeObject.category}</p>
-                {activeObject.color && <p className="text-sm">Szín: {activeObject.color}</p>}
-                {activeObject.material && <p className="text-sm">Anyag: {activeObject.material}</p>}
+                <p className="text-lg mb-4">{activeObject.description[currentLang]}</p>
+                <p className="text-sm uppercase tracking-[0.16em] mb-4">{t(activeObject.category as any)}</p>
+                {activeObject.color && <p className="text-sm">{t("colorLabel")} {activeObject.color[currentLang]}</p>}
+                {activeObject.material && <p className="text-sm">{t("materialLabel")} {activeObject.material[currentLang]}</p>}
                 {activeObject.dimensions &&
                   (activeObject.dimensions.widthCm ||
                     activeObject.dimensions.heightCm ||
                     activeObject.dimensions.depthCm) && (
                     <p className="text-sm">
-                      Méret: {activeObject.dimensions.widthCm || 0} cm x
+                      {t("sizeLabel")} {activeObject.dimensions.widthCm || 0} cm x
                       {" "}
                       {activeObject.dimensions.heightCm || 0} cm x
                       {" "}
@@ -539,11 +496,11 @@ export default function Home() {
                     </p>
                   )}
                 {activeObject.weightKg > 0 && (
-                  <p className="text-sm">Súly: {activeObject.weightKg} kg</p>
+                  <p className="text-sm">{t("weightLabel")} {activeObject.weightKg} kg</p>
                 )}
                 {activeObject.cost > 0 && (
                   <p className="text-sm">
-                    Ár: {formatHuNumber(activeObject.cost)} {activeObject.costUnit}
+                    {t("priceLabel")} {formatHuNumber(activeObject.cost)} {activeObject.costUnit[currentLang]}
                   </p>
                 )}
               </div>
@@ -551,28 +508,15 @@ export default function Home() {
                 type="button"
                 className="pill-filled rounded-full px-6 py-2 text-sm mt-6"
                 onClick={() => dispatch({ type: "ADD_TO_CART", object: activeObject })}
-              >
-                Hozzáadás a kosaradhoz
-              </button>
+              >{t("addToCartButton")}</button>
             </section>
           ) : (
             <section className="space-y-2 flex flex-col h-full">
-              <h1 className="display-font text-lg font-semibold uppercase tracking-[0.16em]">
-                Végső kiárusítás - Papsziget
-              </h1>
-              <p className="display-font text-md mb-3 text-justify">
-                Fiktív online áruház, ahol a szentendrei Papsziget emberalkotta
-                tárgyait "vásárolhatod meg". Miután mindent megvettek és elvittek,
-                a sziget visszakerül a természet birtokába.
-              </p>
-              <p className="display-font text-sm mb-3 text-justify">
-                A térképen jelölt pontokra kattintva böngészhetsz a
-                tárgyak között, és hozzáadhatod őket a kosaradhoz.
-              </p>
+              <h1 className="display-font text-lg font-semibold uppercase tracking-[0.16em]">{t("welcomeTitle")}</h1>
+              <p className="display-font text-md mb-3 text-justify">{t("welcomeP1")}</p>
+              <p className="display-font text-sm mb-3 text-justify">{t("welcomeP2")}</p>
               <p className="display-font text-sm text-justify">
-                A tárgyak száma folyamatosan bővül. Ha van egy jó fotód egy
-                tárgyról a szigeten, amit szívesen látnál az oldalon, {" "}
-                <a className="underline" href="mailto:csertant@edu.bme.hu">küldd el</a>.
+                {t("welcomeP3")} <a className="underline" href="mailto:csertant@edu.bme.hu">{t("welcomeP3Link")}</a>.
               </p>
             </section>
           )}
@@ -584,16 +528,12 @@ export default function Home() {
               }`}
           >
             <div className="flex justify-between items-start mb-3">
-              <p className="display-font text-base uppercase tracking-[0.2em]">
-                Vásárlás
-              </p>
+              <p className="display-font text-base uppercase tracking-[0.2em]">{t("shopTitle")}</p>
               <button
                 type="button"
                 className="btn-ghost rounded-full px-3 py-1 text-[10px]"
                 onClick={closeCartModal}
-              >
-                Bezár
-              </button>
+              >{t("closeButton")}</button>
             </div>
             <div className="h-full overflow-y-auto no-scrollbar">
               {renderCheckoutPage()}
@@ -602,20 +542,10 @@ export default function Home() {
         </div>
 
         <footer className="pt-3 text-[8px] space-y-2">
-          <p className="text-justify">
-            Ez az oldal fiktív webshop, egy művészeti projekt része. Az itt található tárgyak a
-            valóságban nem feltétlenül eladóak, illetve nincsenek az oldal készítője
-            birtokában. Az oldalon közzétett információk nem minősülnek ajánlattételnek,
-            nem történik sem fizetés, sem adásvétel, és semmilyen kötelezettség nem
-            keletkezik vállalások teljesítésére.
-            Az oldalon találhatóak adatmezők, melyek utánozzák a szokásos személyes adatokat
-            gyűjtő mezők viselkedését, viszont az itt megadott információk csak lokálisan kerülnek
-            tárolásra és semmilyen módon nincsenek továbbítva feldolgozásra. Az oldal nem gyűjt,
-            nem tárol és nem továbbít személyes adatokat.
-          </p>
+          <p className="text-justify">{t("footerText")}</p>
           <p className="flex justify-between">
             <span className="underline">
-              © 2025-{currentYear} <a href="https://tamascsertan.com" target="_blank" rel="noreferrer">tamás csertán</a> - Minden jog fenntartva.
+              © 2025-{currentYear} <a href="https://tamascsertan.com" target="_blank" rel="noreferrer">tamás csertán</a> - {t("rightsReserved")}
             </span>
             <span>1.2.0</span>
           </p>
