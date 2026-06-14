@@ -547,7 +547,7 @@ export default function Home() {
             <span className="underline">
               © 2025-{currentYear} <a href="https://tamascsertan.com" target="_blank" rel="noreferrer">tamás csertán</a> - {t("rightsReserved")}
             </span>
-            <span>1.2.0</span>
+            <span>1.3.0</span>
           </p>
         </footer>
       </section>
